@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="왼손에 폰을 올려주세요."
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:id="@+id/Accelerate_Comment"/>
+
+    <!--
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_margin="20dp"
+        android:src="@drawable/z_phone_with_hand"/>
+        -->
+
+    <TextView
+        android:id="@+id/acc_xyz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="가속도 xyz"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+    <TextView
+        android:id="@+id/accma_xyz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="가속도 이동평균 xyz"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+    <TextView
+        android:id="@+id/gyro_xyz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="자이로 xyz"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+    <TextView
+        android:id="@+id/gyroma_xyz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="자이로 이동평균 xyz"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+
+
+</LinearLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NIHSS.EyeDetectFragment">
+
+    <ImageButton
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/dot_removebg_preview"
+        android:id="@+id/Left_Dot"
+        android:layout_gravity="center_vertical"
+        android:visibility="visible"
+        android:layout_margin="20dp"/>
+
+    <ImageButton
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/dot_removebg_preview"
+        android:id="@+id/Right_Dot"
+        android:layout_gravity="end|center_vertical"
+        android:visibility="visible"
+        android:layout_margin="20dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="점이 나타나면 사라지기 전에 빠르게 눌러주세요"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:id="@+id/Eyedetect_Dot_Comment"/>
+
+
+
+</FrameLayout>
