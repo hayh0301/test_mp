@@ -5,6 +5,7 @@ import static java.lang.String.valueOf;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -23,6 +24,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.nihss_mp.MainActivity;
 import com.example.nihss_mp.R;
 
 import java.util.Locale;
@@ -95,13 +97,24 @@ public class NihssActivity extends AppCompatActivity {
             case "Accelerator" : fragment = new AcceleratorFragment(); break;
             case "FaceDetect" : fragment = new FaceDetectFragment(); break;
             //case "FaceDetect2" : fragment = new FaceDetect2Fragment(); break;
-            case "End" : Toast.makeText(NihssActivity.this,"end", Toast.LENGTH_SHORT).show(); break; //종료
+            case "End" :
+                // Toast.makeText(NihssActivity.this,"end", Toast.LENGTH_SHORT).show();
+                fragment = new ScoreFragment();
+                // fragment = null;
+                break; //종료
+            case "null" :
+                fragment = null;
+                break;
         }
 
         // 프레그먼트 교체
         if (fragment != null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.FragFrame_NIHSS, fragment).commit();
+        } else{
+            Intent intent = new Intent(NihssActivity.this, MainActivity.class);
+            startActivity(intent);
+            Toast.makeText(NihssActivity.this,"NIHSS total score = " + NIHSS_total_score, Toast.LENGTH_SHORT).show();
         }
 
     }

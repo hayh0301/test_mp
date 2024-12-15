@@ -135,11 +135,14 @@ public class EyeDetectFragment extends Fragment {
         if(round < random_num) { Start_Eye_Detect(); }
         else if(round == random_num) { // 모든 검사 후 점수 체크
             if(EyeDetect_Score >= 6){
-                Toast.makeText(getContext(),"NIHSS 2점", Toast.LENGTH_SHORT).show();
+                NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + 2;
+                Toast.makeText(getContext(),"2점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
             } else if (3 <= EyeDetect_Score && EyeDetect_Score <6) {
-                Toast.makeText(getContext(),"NIHSS 1점", Toast.LENGTH_SHORT).show();
+                NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + 1;
+                Toast.makeText(getContext(),"1점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getContext(),"NIHSS 0점", Toast.LENGTH_SHORT).show();
+                NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + 0;
+                Toast.makeText(getContext(),"0점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
             }
 
             if (soundPool != null) {
@@ -185,21 +188,6 @@ public class EyeDetectFragment extends Fragment {
             }
         }, (long) 3 * 1000); // 3초 대기
 
-        // 버튼 클릭 이벤트가 3초 내 모두 눌렸을 경우 바로 다음 라운드로 이동
-//        if (Check_All_Flags(Dot_Control_num)) { Dot_Control(0); // 점 비활성화
-//            handler.post(() -> {
-//                    // 2초 텀 추가 후 다음 라운드로 이동
-//                    handler.postDelayed(() -> {
-//                        try {
-//                            round++; // 라운드 증가
-//                            Control_Eye_Detect(); // 다음 라운드로 이동
-//                        } catch (InterruptedException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }, 2 * 1000); // 2초 대기
-//
-//            });
-//        }
 
     }
 

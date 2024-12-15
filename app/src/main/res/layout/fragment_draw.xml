@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18dp"
-            android:text="벽면에 닿지 않게 빨간점을 연결해주세요"
+            android:text="벽면에 닿지 않게 왼손으로 빨간점을 연결해주세요"
             android:gravity="center"
             android:layout_margin="10dp"
             android:id="@+id/Draw_Comment"/>
@@ -39,7 +39,8 @@
                 android:src="@drawable/spiral_smoothed"
                 android:scaleType="fitCenter"
                 android:tint="#FFD146"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:scaleX="1"/>
            <ImageView
                android:id="@+id/Draw_dot"
                android:layout_width="wrap_content"

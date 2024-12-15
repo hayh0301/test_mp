@@ -78,9 +78,15 @@ public class DrawFragment extends Fragment {
             Log.d("DrawFragment", "ori : w - " + Draw_OriImage.getWidth() + " h - " + Draw_OriImage.getHeight());
 
             // 크기 조정 작업
+
             CanvasSizeControl();
         });
 
+        if(activity.draw_phase !=0){
+            Draw_Comment.setText("벽면에 닿지 않게 오른손으로 빨간점을 연결해주세요");
+        } else{
+            Draw_Comment.setText("벽면에 닿지 않게 왼손으로 빨간점을 연결해주세요");
+        }
         activity.Speak(getContext(), Draw_Comment, "Draw", () -> {});
 
 
@@ -95,12 +101,20 @@ public class DrawFragment extends Fragment {
 
             boolean isCollision = checkCollision();
             if (isCollision) {
-                Toast.makeText(getContext(), "잘못 그렸습니다. 다시 시도하세요.", Toast.LENGTH_SHORT).show();
+                NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + 1;
+                Toast.makeText(getContext(), "1점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getContext(), "잘 그렸습니다!", Toast.LENGTH_SHORT).show();
+                NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + 0;
+                Toast.makeText(getContext(), "0점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
             }
 
-            activity.ChangeFragment("Accelerator");
+            if(activity.draw_phase == 0){
+                activity.ChangeFragment("Draw"); activity.draw_phase++;
+            } else{
+                activity.ChangeFragment("Accelerator");
+            }
+
+
         }, 10 * 1000);
 
         return view;
@@ -108,6 +122,11 @@ public class DrawFragment extends Fragment {
 
 
     private void CanvasSizeControl(){
+        if(activity.draw_phase != 0){
+            Draw_OriImage.setScaleX(-1);
+            Draw_dot.setScaleX(-1);
+        }
+
         Bitmap oriBitmapOriginal = ((BitmapDrawable) Draw_OriImage.getDrawable()).getBitmap();
         if (oriBitmapOriginal == null) {
             Log.e("DrawFragment", "원본 비트맵을 가져오지 못했습니다!");

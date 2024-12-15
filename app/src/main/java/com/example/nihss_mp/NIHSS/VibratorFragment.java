@@ -36,8 +36,8 @@ public class VibratorFragment extends Fragment {
     FrameLayout Vibrator_view1;
     FrameLayout Vibrator_view2;
 
-    TextView Vibrator_Comment, vib;
-    Button btn;
+    TextView Vibrator_Comment, Vibrator_Comment2, vib;
+    Button btn, btn2;
     Handler handler = new Handler();
     SoundPool soundPool; private int soundId;
 
@@ -48,6 +48,7 @@ public class VibratorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_vibrator, container, false);
         Vibrator_Comment = view.findViewById(R.id.Vibrator_Comment);
+        Vibrator_Comment2 = view.findViewById(R.id.Vibrator_Comment2);
         activity.Progressbar_NIHSS.setVisibility(View.GONE);
 
         vib = view.findViewById(R.id.vib);
@@ -92,6 +93,38 @@ public class VibratorFragment extends Fragment {
             }
         });
 
+        btn2 = view.findViewById(R.id.Vibrator_btn2);
+        btn2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: // 버튼 누름
+                        btn2.setBackgroundColor(Color.parseColor("#D3D3D3")); // 누르는 동안 회색으로 바뀜
+                        BtnPress = true;
+                        // 1초 동안 누르면 진동 중단
+                        handler.postDelayed(() -> {
+                            if (BtnPress && isVibrate) { // 1초 동안 누르는 것 성공 && 진동 중
+                                correct = true; // 정답
+                                StopVibrate(); // 진동 중지
+                                BtnPress = false;
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ControlVibrate(); // 4초 후 다음 진동으로 이동
+                                    }
+                                }, 4000);
+                            }}, 1000);
+                        break;
+
+                    case MotionEvent.ACTION_UP: // 버튼에서 손 뗌
+                        btn2.setBackgroundColor(Color.parseColor("#FFD146"));
+                        BtnPress = false;
+                        break;
+                }
+                return false;
+            }
+        });
+
         ReadyVibrate(); //초기화
         Vibrator_Comment.setText("왼쪽 손으로 휴대폰을 잡아주세요 \n 진동이 느껴지면 버튼을 꾹 눌러주세요");
 
@@ -100,7 +133,12 @@ public class VibratorFragment extends Fragment {
         soundId = soundPool.load(getContext(), R.raw.button2, 1);
 
         // 시작
-        activity.Speak(requireContext(), Vibrator_Comment, "STT", () -> {ControlVibrate();});
+        if(activity.vib_phase == 0){
+            activity.Speak(requireContext(), Vibrator_Comment, "STT", () -> {ControlVibrate();});
+        }else {
+            activity.Speak(requireContext(), Vibrator_Comment2, "STT", () -> {ControlVibrate();});
+        }
+
 
         return view;
     }
@@ -116,6 +154,15 @@ public class VibratorFragment extends Fragment {
         vib_second = 3000; // 진동 길이
         vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         //Log.d("VibratorFragment", " round : " + random_round);
+
+
+        if(activity.vib_phase == 0){
+            Vibrator_view1.setVisibility(View.VISIBLE);
+            Vibrator_view2.setVisibility(View.GONE);
+        } else {
+            Vibrator_view1.setVisibility(View.GONE);
+            Vibrator_view2.setVisibility(View.VISIBLE);
+        }
     }
 
     private void ControlVibrate(){
@@ -124,7 +171,14 @@ public class VibratorFragment extends Fragment {
         if(round < random_round){ // 아직 정해진 round 만큼 진동하지 않았을 때 다시 진동하도록 control
             round++;StartVibrate();
         } else{ // 정해진 진동을 완료하였을 때 최종 스코어 계산 후 다음 프레그먼트로 이동
-            Calculate_Final_Score(); vibrator = null; activity.ChangeFragment("EyeDetect");
+            Calculate_Final_Score(); vibrator = null;
+
+            if(activity.vib_phase == 0){
+                activity.ChangeFragment("Vibrate"); activity.vib_phase++;
+            } else{
+                activity.ChangeFragment("EyeDetect");
+            }
+
         }
     }
 
@@ -170,23 +224,38 @@ public class VibratorFragment extends Fragment {
 
         // 진동 멈출때 correct가 true 아니라면 스코어 상승
         if(!correct){
-            score++;Log.d("VibratorFragment", "score up! : " + score); correct = false;
+            score++; Log.d("VibratorFragment", "score up! : " + score); correct = false;
         }
 
 
     }
 
     private void Calculate_Final_Score(){
+
+
         Log.d("VibratorFragment", " final score : " + score);
 
         if(round == random_round){ // 계산
-            if(score >= random_round){
-                Toast.makeText(getContext(), "2점", Toast.LENGTH_SHORT).show();
-            } else if(score <= 1){
-                Toast.makeText(getContext(), "0점", Toast.LENGTH_SHORT).show();
+//            if(score >= random_round){
+//                NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + 2;
+//                Toast.makeText(getContext(), "2점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
+//            } else if(score <= 1){
+//                NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + 0;
+//                Toast.makeText(getContext(), "0점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
+//            } else {
+//                NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + 1;
+//                Toast.makeText(getContext(), "1점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
+//            }
+
+            if(score <= 1){
+                NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + 0;
+                Toast.makeText(getContext(), "0점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getContext(), "1점", Toast.LENGTH_SHORT).show();
+                NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + 1;
+                Toast.makeText(getContext(), "1점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
             }
+
+
         } else{
         }
 

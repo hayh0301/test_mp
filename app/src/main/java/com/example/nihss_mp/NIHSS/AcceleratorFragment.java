@@ -53,11 +53,24 @@ public class AcceleratorFragment extends Fragment {
         zMovingAverage_gyro = new MovingAverage(10);
 
         // 센서 준비
-        Accelerate_Comment.setText("왼손에 폰을 그림과 같이 올려주세요");
+        if(activity.acc_phase == 0){
+            Accelerate_Comment.setText("왼손에 폰을 올려주세요");
+        } else {
+            Accelerate_Comment.setText("오른손에 폰을 올려주세요");
+        }
+
+        
         ReadySensor();
 
         // 안내 메세지 전달
         activity.Speak(requireContext(), Accelerate_Comment, "Accelerate", () -> {
+
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
             Accelerate_Comment.setText("이제 어깨 높이까지 폰을 들어올려주세요");
             activity.Speak(requireContext(), Accelerate_Comment, "Accelerate", () -> {});
             Start = true; StartSensor();
@@ -198,19 +211,28 @@ public class AcceleratorFragment extends Fragment {
                     if(currentTime - HoldStartTime > 1 * 1000) {
                         if(i == 1){
                             Accelerate_Comment.setText("손을 올린채로 잠시 기다려 주세요.");
-                            activity.Speak(activity, Accelerate_Comment, "Accelerate", () -> {
+                            activity.Speak(getContext(), Accelerate_Comment, "Accelerate", () -> {
                             }); i--;
                         }
 
                     }
-                    if(currentTime - HoldStartTime > 5 * 1000) {
+                    if(currentTime - HoldStartTime > 7 * 1000) {
                         StopSensor();
                         Score(0); // 0점 (성공)
                         Accelerate_Comment.setText("측정이 완료되었습니다.");
-                        activity.Speak(activity, Accelerate_Comment, "Accelerate", () -> {
+                        //activity.Speak(getContext(), Accelerate_Comment, "Accelerate", () -> {
                             // 다음 프레그먼트로 이동하는 코드 작성
-                            activity.ChangeFragment("FaceDetect");
-                        });
+                            if(activity.acc_phase == 0){
+                                activity.ChangeFragment("Accelerator"); activity.acc_phase++;
+                            } else{
+                                activity.ChangeFragment("FaceDetect");
+                            }
+                        //});
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 } else{
                     //i = 1;
@@ -223,26 +245,53 @@ public class AcceleratorFragment extends Fragment {
                     if(wasLifted && wasShoulderHeight){
                         Score(1); // 1점 : 어깨 높이 도달했으나 떨어뜨림
                         Accelerate_Comment.setText("측정이 완료되었습니다.");
-                        activity.Speak(activity, Accelerate_Comment, "Accelerate", () -> {
+                        //activity.Speak(getContext(), Accelerate_Comment, "Accelerate", () -> {
                             // 다음 프레그먼트로 이동하는 코드 작성
-                            activity.ChangeFragment("FaceDetect");
-                        });
+                            if(activity.acc_phase == 0){
+                                activity.ChangeFragment("Accelerator"); activity.acc_phase++;
+                            } else{
+                                activity.ChangeFragment("FaceDetect");
+                            }
+                        //});
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
                     } else {
 
                         if (xChange1) {
                             Score(2); // 2점 : 움직이긴 했음
                             Accelerate_Comment.setText("측정이 완료되었습니다.");
-                            activity.Speak(activity, Accelerate_Comment, "Accelerate", () -> {
+                            //activity.Speak(getContext(), Accelerate_Comment, "Accelerate", () -> {
                                 // 다음 프레그먼트로 이동하는 코드 작성
-                                activity.ChangeFragment("FaceDetect");
-                            });
+                                if(activity.acc_phase == 0){
+                                    activity.ChangeFragment("Accelerator"); activity.acc_phase++;
+                                } else{
+                                    activity.ChangeFragment("FaceDetect");
+                                }
+                            //});
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
                         } else {
                             Score(3); // 3점 : 움직이지 않았음
                             Accelerate_Comment.setText("측정이 완료되었습니다.");
-                            activity.Speak(activity, Accelerate_Comment, "Accelerate", () -> {
+                           // activity.Speak(getContext(), Accelerate_Comment, "Accelerate", () -> {
                                 // 다음 프레그먼트로 이동하는 코드 작성
-                                activity.ChangeFragment("FaceDetect");
-                            });
+                                if(activity.acc_phase == 0){
+                                    activity.ChangeFragment("Accelerator"); activity.acc_phase++;
+                                } else{
+                                    activity.ChangeFragment("FaceDetect");
+                                }
+                           // });
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
 
@@ -287,7 +336,9 @@ public class AcceleratorFragment extends Fragment {
                 message = "알 수 없는 상태!";
                 break;
         }
-        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+        NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + score;
+        Toast.makeText(getContext(), score + "점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
         Log.d("AcceleratorFragment", message);
     }
 

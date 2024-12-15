@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/Vibrator_view1"
-        android:visibility="visible">
+        android:visibility="gone">
 
 
         <LinearLayout
@@ -75,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/Vibrator_view2"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,7 +86,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="왼손으로 휴대폰을 잡아주세요\n진동이 느껴지면 화면의 버튼을 짧게 눌러주세요"
+                android:text="오른손으로 휴대폰을 잡아주세요\n진동이 느껴지면 화면의 버튼을 짧게 눌러주세요"
                 android:layout_gravity="top|center"
                 android:gravity="center"
                 android:textSize="25dp"
@@ -103,7 +103,7 @@
                     android:layout_height="150dp"
                     android:foregroundGravity="center"
                     android:src="@drawable/mobile"
-
+                    android:scaleX="-1"
 
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/Vibrator_btn2"

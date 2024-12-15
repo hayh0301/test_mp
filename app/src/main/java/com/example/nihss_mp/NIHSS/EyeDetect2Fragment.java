@@ -138,11 +138,14 @@ public class EyeDetect2Fragment extends Fragment {
         if(round < random_num) { Start_Eye_Detect2(); }
         else if(round == random_num) { // 모든 검사 후 점수 체크
             if(EyeDetect2_Score >= 6){
-                Toast.makeText(getContext(),"NIHSS 2점", Toast.LENGTH_SHORT).show();
+                NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + 2;
+                Toast.makeText(getContext(),"2점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
             } else if (3 <= EyeDetect2_Score && EyeDetect2_Score <6) {
-                Toast.makeText(getContext(),"NIHSS 1점", Toast.LENGTH_SHORT).show();
+                NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + 1;
+                Toast.makeText(getContext(),"1점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getContext(),"NIHSS 0점", Toast.LENGTH_SHORT).show();
+                NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + 0;
+                Toast.makeText(getContext(),"0점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
             }
 
             if (soundPool != null) {

@@ -116,6 +116,13 @@ public class FaceDetectFragment extends Fragment {
         // 안내 메시지 설정 및 음성 출력
         FaceDetect_Comment.setText("얼굴이 잘 보이도록 화면을 조절해주세요");
         activity.Speak(requireContext(), FaceDetect_Comment, "FaceDetect", () -> {
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
             long currentTime = System.currentTimeMillis();
             if (Face && (currentTime - HoldStartTime > 1000)) {
                 initial = true;
@@ -363,6 +370,10 @@ public class FaceDetectFragment extends Fragment {
                 break;
         }
         Log.d("FaceDetect", message);
+
+        NihssActivity.NIHSS_total_score = NihssActivity.NIHSS_total_score + score;
+        Toast.makeText(getContext(), score + "점 추가. 총 " + NihssActivity.NIHSS_total_score, Toast.LENGTH_SHORT).show();
+
         data1.setText(message);
 
         // 카메라 리소스 해제
