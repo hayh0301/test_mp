@@ -60,7 +60,7 @@ public class NihssActivity extends AppCompatActivity {
         face_phase = 0; // 0 - 얼굴 1 - 눈
 
         //시작
-        ChangeFragment("First");
+        ChangeFragment("FaceDetect");
 
     }
 

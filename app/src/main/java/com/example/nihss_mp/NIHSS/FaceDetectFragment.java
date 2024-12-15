@@ -376,24 +376,34 @@ public class FaceDetectFragment extends Fragment {
 
         data1.setText(message);
 
-        // 카메라 리소스 해제
-        try {
-            ProcessCameraProvider cameraProvider = ProcessCameraProvider.getInstance(requireContext()).get();
-            cameraProvider.unbindAll(); // 모든 카메라 연결 해제
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        // Mediapipe FaceLandmarker 리소스 해제
-        if (faceLandmarker != null) {
-            faceLandmarker.close(); // Mediapipe 리소스 해제
-            faceLandmarker = null; // 참조 해제
-        }
 
-        // 기타 핸들러 콜백 제거
-        handler.removeCallbacksAndMessages(null);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
-        activity.ChangeFragment("End");
+                // 카메라 리소스 해제
+                try {
+                    ProcessCameraProvider cameraProvider = ProcessCameraProvider.getInstance(requireContext()).get();
+                    cameraProvider.unbindAll(); // 모든 카메라 연결 해제
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                // Mediapipe FaceLandmarker 리소스 해제
+                if (faceLandmarker != null) {
+                    faceLandmarker.close(); // Mediapipe 리소스 해제
+                    faceLandmarker = null; // 참조 해제
+                }
+
+                // 기타 핸들러 콜백 제거
+                handler.removeCallbacksAndMessages(null);
+
+                activity.ChangeFragment("End");
+            }
+        }, 3000);
+
+
     }
 }
 

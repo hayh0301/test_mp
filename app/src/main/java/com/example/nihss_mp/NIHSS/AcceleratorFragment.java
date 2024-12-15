@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,8 @@ public class AcceleratorFragment extends Fragment {
     private TextView gyro_xyz;
     private TextView gyroma_xyz;
 
+    ImageView z_phone_with_hand_left;
+
     private Handler handler = new Handler();
 
     @Override
@@ -43,6 +46,16 @@ public class AcceleratorFragment extends Fragment {
         accma_xyz = view.findViewById(R.id.accma_xyz);
         gyro_xyz = view.findViewById(R.id.gyro_xyz);
         gyroma_xyz = view.findViewById(R.id.gyroma_xyz);
+        z_phone_with_hand_left = view.findViewById(R.id.z_phone_with_hand_left);
+
+        if(activity.acc_phase == 0){
+            z_phone_with_hand_left.setScaleX(-1);
+        } else{
+            z_phone_with_hand_left.setScaleX(1);
+        }
+
+
+
 
         // 이동 평균 설정
         xMovingAverage_acc = new MovingAverage(10); // 최근 10개의 데이터만 고려
