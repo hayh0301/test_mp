@@ -114,7 +114,7 @@ public class NihssActivity extends AppCompatActivity {
         } else{
             Intent intent = new Intent(NihssActivity.this, MainActivity.class);
             startActivity(intent);
-            Toast.makeText(NihssActivity.this,"NIHSS total score = " + NIHSS_total_score, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(NihssActivity.this,"NIHSS total score = " + NIHSS_total_score, Toast.LENGTH_SHORT).show();
         }
 
     }

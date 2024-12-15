@@ -125,6 +125,7 @@ public class DrawFragment extends Fragment {
         if(activity.draw_phase != 0){
             Draw_OriImage.setScaleX(-1);
             Draw_dot.setScaleX(-1);
+            Draw_MyImage.setScaleX(-1);
         }
 
         Bitmap oriBitmapOriginal = ((BitmapDrawable) Draw_OriImage.getDrawable()).getBitmap();
